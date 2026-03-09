@@ -58,7 +58,11 @@
 
           <div class="hero-cta">
             <a class="btn btn-primary" href="#contact">Got a project?</a>
-            <a class="btn btn-ghost" href="assets/CV-Nelson-Esteban-Llanes-Suarez.pdf" download>
+            <a
+              class="btn btn-ghost"
+              href="assets/CV-Nelson-Esteban-Llanes-Suarez.pdf"
+              download
+            >
               My resume
             </a>
           </div>
@@ -398,7 +402,13 @@
           <div class="panel contact-right">
             <h3 class="panel-title">Send a Message</h3>
 
-            <form id="contactForm" class="form" novalidate>
+            <form
+              id="contactForm"
+              class="form"
+              action="https://script.google.com/macros/s/AKfycbzI2P2PuIirLkt_EoyAP3HbPHbeS7TpV8j9rFLfjMrNh1j5GPduK3AweXmPtWaRRHdn/exec"
+              method="POST"
+              novalidate
+            >
               <label>
                 <span class="label">NAME</span>
                 <input
@@ -437,58 +447,15 @@
             </form>
 
             <script>
-              const ENDPOINT_URL =
-                "https://script.google.com/macros/s/AKfycbym3DOJ-0HnRgcBj1Rx2lYk_qrd0ktw6OI-FTHpQIJS2mQq4sskeP6Vic3-Lv4FCPbL/exec";
-
               const form = document.getElementById("contactForm");
               const note = document.getElementById("formNote");
               const submitBtn = form.querySelector('button[type="submit"]');
               const originalBtnText = submitBtn.textContent;
 
-              form.addEventListener("submit", async (e) => {
-                e.preventDefault();
-
-                const payload = {
-                  name: form.name.value.trim(),
-                  email: form.email.value.trim(),
-                  message: form.message.value.trim(),
-                  userAgent: navigator.userAgent,
-                  pageUrl: window.location.href,
-                };
-
-                if (!payload.name || !payload.email || !payload.message) {
-                  note.textContent = "Please fill in all fields.";
-                  return;
-                }
-
+              form.addEventListener("submit", () => {
                 submitBtn.disabled = true;
                 submitBtn.textContent = "Sending...";
-                note.textContent = "";
-
-                try {
-                  const res = await fetch(ENDPOINT_URL, {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "text/plain;charset=utf-8",
-                    },
-                    body: JSON.stringify(payload),
-                  });
-
-                  const data = await res.json();
-
-                  if (data && data.ok) {
-                    note.textContent = "Message sent successfully. Thank you!";
-                    form.reset();
-                  } else {
-                    note.textContent =
-                      "Error sending message. Please try again.";
-                  }
-                } catch (err) {
-                  note.textContent = "Network error. Please try again later.";
-                } finally {
-                  submitBtn.disabled = false;
-                  submitBtn.textContent = originalBtnText;
-                }
+                note.textContent = "Sending message...";
               });
             </script>
           </div>
